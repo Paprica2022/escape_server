@@ -83,8 +83,15 @@ class SocketController {
             //클라에게 에러 에밋하는거 귀찮아서 안함
             return; //have to emit error
         }
-
+        
         let room_id = info.room_id;
+        //방이 playing 상태이면 join불가
+        let roominfo = RoomController.getRoomInfo(room_id) ; 
+        //console.log("room status : ", roominfo.room_status)
+        if (roominfo.room_status == 'playing') {
+            console.log("room status : ", roominfo.room_status)
+            return;
+        }
 
 
         
