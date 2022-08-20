@@ -208,7 +208,7 @@ class SocketController {
         let room_id = this.getUserRoomId(socket);
         GameController.moveByDirection(socket.id,room_id,direction);
 
-
+        this.updateGameInfo(io, socket);
     }
 
 }
