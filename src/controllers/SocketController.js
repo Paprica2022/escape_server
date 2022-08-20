@@ -83,12 +83,11 @@ class SocketController {
             //클라에게 에러 에밋하는거 귀찮아서 안함
             return; //have to emit error
         }
-        
+
         let room_id = info.room_id;
-        //방이 playing 상태이면 join불가
         let roominfo = RoomController.getRoomInfo(room_id) ; 
         //console.log("room status : ", roominfo.room_status)
-        if (roominfo.room_status == 'playing') {
+        if (roominfo.room_status === 'playing') {
             console.log("room status : ", roominfo.room_status)
             return;
         }
@@ -161,11 +160,23 @@ class SocketController {
 
         if (RoomController.isRoomReady(room_id)) { 
             RoomController.setRoomStatus(room_id, "playing");
-            // GameController.set(room_id, RoomController.getPlayer(room_id));
+            GameController.set(room_id, RoomController.getPlayerList(room_id), []);
             // GameController.initializeStone(room_id);
         }
 
-        // this.updateRoomInfo(io, socket);
+        this.updateGameInfo(io, socket);
+    }
+
+    updateGameInfoById(room_id){
+        io.in(room_id).emit(ClientEvents.COMMAND, {
+            command: ClientEvents.GAMEINFO,
+            room_info: GameController.getGameInfo(room_id),
+        });
+    }
+
+    updateGameInfo(io,socket){
+        let room_id = this.getUserRoomId(socket);
+        updateGameInfoById(room_id);
     }
 
     exitRoom(io, socket){
@@ -175,12 +186,26 @@ class SocketController {
             this.disconnect(io, socket);
             socket.leave(user_room_id);
         } 
-        let room_id = RoomController.quitUser(socket);
+        let room_id = RoomController.quitUser(socket.id);
         socket.join("lobby");
         this.updateRoomList(io, socket);
 
         this.updateRoomInfoById(io,room_id);
         
+
+    }
+
+    move(io, socket, info){
+        if (!info.direction) {
+            log.error(`User[${socket.id}] Join Room Failed`);
+            //클라에게 에러 에밋하는거 귀찮아서 안함
+            return; //have to emit error
+        }    
+
+        let direction = info.direction;
+        let room_id = this.getUserRoomId(socket);
+        GameController.moveByDirection(socket.id,room_id,direction);
+
 
     }
 

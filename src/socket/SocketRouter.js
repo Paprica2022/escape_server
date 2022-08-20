@@ -51,6 +51,10 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
     socket.on(ServerEvents.READY, () => {
         SocketController.ready(io, socket);
     });
+
+    socket.on(ServerEvents.MOVE, (info) => {
+        SocketController.move(io,socket,info);
+    });
 });
 
 

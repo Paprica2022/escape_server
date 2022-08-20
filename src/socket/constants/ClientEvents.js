@@ -7,4 +7,6 @@ export default {
   GAME: "game",
   TURN: "turn",
   SENDID: "send_id",
+  START : "start",
+  GAMEINFO :"game_info"
 };

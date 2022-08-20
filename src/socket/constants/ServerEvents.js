@@ -7,5 +7,6 @@ export default {
     EXITROOM : "exit_room",
     READY: "ready",
     GETID: "get_id",
+    MOVE: "move"
 };
   
