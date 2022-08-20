@@ -1,0 +1,25 @@
+{
+  "name": "escape-server",
+  "version": "1.0.0",
+  "description": "Jaram_Othello_Competition",
+  "main": "/src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "pm2:single": "pm2 start index.js",
+    "pm2:cluster": "pm2 start ecosystem.config.js",
+    "dev": "nodemon -L"
+  },
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "pm2": "^5.1.2",
+    "socket.io": "^4.4.1",
+    "winston": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
+    "nodemon": "^2.0.19"
+  }
+}
