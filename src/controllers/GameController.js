@@ -24,7 +24,7 @@ class GameController {
         log.info(`Setted Game[${room_id}]`);
         this._game.set(room_id, {
             player : players,
-            location : Array(players.size*2).fill(-1)
+            location : Array(players.size*2).fill(6)
         });
 
     }

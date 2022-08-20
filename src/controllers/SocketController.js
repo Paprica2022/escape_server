@@ -157,14 +157,16 @@ class SocketController {
         //   return;
         // }
         RoomController.setReady(room_id, socket.id);
-
+        this.updateRoomInfo(io, socket);
         if (RoomController.isRoomReady(room_id)) { 
             RoomController.setRoomStatus(room_id, "playing");
             GameController.set(room_id, RoomController.getPlayerList(room_id), []);
             // GameController.initializeStone(room_id);
+            this.updateGameInfo(io, socket);
+            return;
         }
 
-        this.updateGameInfo(io, socket);
+        
     }
 
     updateGameInfoById(room_id){
