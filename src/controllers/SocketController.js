@@ -151,7 +151,7 @@ class SocketController {
     }
 
     ready(io, socket) {
-        let room_id = this.getRoomId(socket);
+        let room_id = this.getUserRoomId(socket);
         // if (!RoomController.isReady(room_id)) {
         //   log.error(`User[${socket.id}] Ready Failed Room[${room_id}] is playing`);
         //   return;
