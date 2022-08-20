@@ -1,5 +1,4 @@
 import log from "../logger.js";
-
 const multiply = 5;
 
 class GameController {
@@ -62,4 +61,4 @@ class GameController {
 };
 
 
-export default GameController;
+export default new GameController;
