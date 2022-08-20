@@ -25,7 +25,7 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
     socket.join("lobby");
     SocketController.updateRoomListSingle(io, socket);
 
-    // socket disconnect
+    // socket disconnect`  
     socket.on(ServerEvents.DISCONNECT, ()=> {
         SocketController.disconnect(io, socket)
     });
@@ -33,6 +33,11 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
     socket.on(ServerEvents.CREATEROOM, (info) => {
         // console.log(info);
         SocketController.createRoom(io,socket,info);
+    });
+
+    socket.on(ServerEvents.JOINROOM, (info) => {
+        console.log("Socket On ", info);
+        SocketController.join(io, socket, info);
     });
 });
 

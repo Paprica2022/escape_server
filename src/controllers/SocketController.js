@@ -9,7 +9,9 @@ import ClientEvents from "../socket/constants/ClientEvents.js";
 
 
 class SocketController {
+    //disconnect시 : 창이 꺼졌을 때
     disconnect(io, socket) {
+        //
         let room_id = RoomController.quitUser(socket.id) || "lobby";
 
         if (room_id != "lobby") {
