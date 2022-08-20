@@ -2,7 +2,7 @@ import crypto from "crypto";
 import log from "../logger.js";
 
 import RoomController from "./RoomController.js";
-// import GameController from "./GameController.js";
+import GameController from "./GameController.js";
 
 import ClientEvents from "../socket/constants/ClientEvents.js";
 // import AppConfig from "../configs/AppConfig.js";
@@ -78,7 +78,7 @@ class SocketController {
     join(io, socket, info) {
         console.log(info);
         // info에 참여하고자하는 룸 아이디가 담겨있지 않은 경우
-        if (!("room_id" in info)) {
+        if (!info.room_id) {
             log.error(`User[${socket.id}] Join Room Failed`);
             //클라에게 에러 에밋하는거 귀찮아서 안함
             return; //have to emit error
