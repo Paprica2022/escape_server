@@ -40,22 +40,22 @@ class SocketController {
         // console.log(info);
         let room_id = crypto.randomBytes(4).toString("hex");
 
-        let user_room_id = this.getUserRoomId(socket);
-        if (user_room_id != "lobby") {
-            this.disconnect(io, socket);
-            socket.leave(user_room_id);
-        } else {
-            socket.leave("lobby");
-        }
+        // let user_room_id = this.getUserRoomId(socket);
+        // if (user_room_id != "lobby") {
+        //     this.disconnect(io, socket);
+        //     socket.leave(user_room_id);
+        // } else {
+        //     socket.leave("lobby");
+        // }
 
         socket.join(room_id);
 
         // Spread Created Room
-        RoomController.createRoomSid(room_id,info.room_sid);
+        RoomController.createRoomSid(room_id, info.room_sid);
         // GameController.add(room_id);
 
         // update local RoomInfo
-        this.updateRoomInfo(io, socket);
+        // this.updateRoomInfo(io, socket);
 
         // broadcast Room List to all
         this.updateRoomList(io, socket);
@@ -88,7 +88,6 @@ class SocketController {
         io.in(room_id).emit(ClientEvents.COMMAND, {
             command: ClientEvents.ROOMINFO,
             room_info: RoomController.getRoomInfo(room_id),
-
         });
     }
 
@@ -102,10 +101,10 @@ class SocketController {
 
     updateRoomList(io, socket) {
         io.in("lobby").emit(ClientEvents.COMMAND, {
-          command: ClientEvents.UPDATEROOM,
-          room_list: RoomController.getRoomList(),
+            command: ClientEvents.UPDATEROOM,
+            room_list: RoomController.getRoomList(),
         });
-      }
+    }
 
     sendSocketId(io, socket) {
         socket.emit(ClientEvents.COMMAND, {
@@ -121,15 +120,15 @@ class SocketController {
         //   return;
         // }
         RoomController.setReady(room_id, socket.id);
-    
+
         if (RoomController.isReady(room_id)) {
-          RoomController.setStatus(room_id, "playing");
-          GameController.set(room_id, RoomController.getPlayer(room_id));
-          GameController.initializeStone(room_id);
+            RoomController.setStatus(room_id, "playing");
+            GameController.set(room_id, RoomController.getPlayer(room_id));
+            GameController.initializeStone(room_id);
         }
-    
+
         this.updateRoomInfo(io, socket);
-      }
+    }
 
 }
 

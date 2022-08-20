@@ -33,8 +33,10 @@ class RoomController {
             room_id: room_id,
             room_status: this._room.get(room_id)["room_status"],
             player: [...this._room.get(room_id)["player"]],
+            map : this._room.get(room_id)["map"],
         };
     }
+
     quitUser(socket_id) {
         for (let [room_id, { room_status, player, map }] of this._room) {
             let isUser = true;
