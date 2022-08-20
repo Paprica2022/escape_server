@@ -84,8 +84,8 @@ class SocketController {
             return; //have to emit error
         }
 
-        
         let room_id = info.room_id;
+
 
         
         let user_room_id = this.getUserRoomId(socket);
@@ -152,13 +152,13 @@ class SocketController {
         // }
         RoomController.setReady(room_id, socket.id);
 
-        if (RoomController.isReady(room_id)) {
-            RoomController.setStatus(room_id, "playing");
-            GameController.set(room_id, RoomController.getPlayer(room_id));
-            GameController.initializeStone(room_id);
+        if (RoomController.isRoomReady(room_id)) { 
+            RoomController.setRoomStatus(room_id, "playing");
+            // GameController.set(room_id, RoomController.getPlayer(room_id));
+            // GameController.initializeStone(room_id);
         }
 
-        this.updateRoomInfo(io, socket);
+        // this.updateRoomInfo(io, socket);
     }
 
     exitRoom(io, socket){

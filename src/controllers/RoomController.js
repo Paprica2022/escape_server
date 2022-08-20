@@ -1,4 +1,5 @@
 import log from "../logger.js";
+const player_max = 10;
 
 class RoomController {
     /*
@@ -61,6 +62,10 @@ class RoomController {
             room_status: value["room_status"],
         }));
     }
+    setRoomStatus(room_id, status) {
+        log.info(`Room[${room_id}] set Status[${status}]`);
+        this._room.get(room_id)["room_status"] = status; // modified room
+    }
 
     //룸에 플레이어를 넣는 함수
     setPlayer(room_id, socket_id) {
@@ -77,12 +82,51 @@ class RoomController {
 
         log.info(`User[${socket_id}] be Player in Room[${room_id}]`);
         
-        //룸 리스트에서 해당 롬 아이디에 해당하는 룸을 찾아 그 플레이어 리스트에 키:클라이언트소켓아이디, 밸류:0로 세팅 -> 밸류 0는 추후 수정 필요!!!!
+        //룸 리스트에서 해당 롬 아이디에 해당하는 룸을 찾아 그 플레이어 리스트에 키:클라이언트소켓아이디, 밸류:0 레디 전 /  밸류:1 레디
         this._room.get(room_id)["player"].set(socket_id, 0);
         return true;
     }
+    //룸 리스트에 해당하는 플레이어 리스트 리턴
+    getPlayerList(room_id) {
+        // use before game start
+        if (!this._room.has(room_id)) {
+            log.error(`Room[${room_id}] Not Found`);
+            return false;
+        }
+        return [...this._room.get(room_id)["player"].keys()];
+    }
+
+    isRoomReady(room_id) {
+        if (!this._room.has(room_id)) {
+            log.error(`Room[${room_id}] Not Found`);
+            return false;
+        }
+        const player_value = [...this._room.get(room_id)["player"].values()]
+        return (
+            player_value.filter((i) => i === 1).length === player_value.length
+        );
+    }
 
     
+    setReady(room_id, socket_id) {
+        if (!this._room.has(room_id)) {
+            log.error(`Room[${room_id}] Not Found`);
+            return false;
+        }
+
+        if (
+            !this._room.get(room_id)["player"].has(socket_id) &&
+            this._room.get(room_id)["player"].size >= player_max
+        ) {
+            log.error(`Room[${room_id}] player is Full`);
+            return false;
+        }
+
+        log.info(`User[${socket_id}] ready in Room[${room_id}]`);
+        this._room.get(room_id)["player"].set(socket_id, 1);
+        return true;
+    }
+
 
 
 

@@ -44,8 +44,12 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
     });
 
     socket.on(ServerEvents.EXITROOM, () => {
-        // console.log("Socket On ", info);
+        // console.log("Socket On ", info);`
         SocketController.exitRoom(io, socket);
+    });
+    
+    socket.on(ServerEvents.READY, () => {
+        SocketController.ready(io, socket);
     });
 });
 
