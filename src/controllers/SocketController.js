@@ -76,8 +76,9 @@ class SocketController {
 
     //룸 참여 -> 참여하고자 하는 룸의 아이디는 info에 담겨 있다
     join(io, socket, info) {
+        console.log(info);
         // info에 참여하고자하는 룸 아이디가 담겨있지 않은 경우
-        if (!info.room_id) {
+        if (!("room_id" in info)) {
             log.error(`User[${socket.id}] Join Room Failed`);
             //클라에게 에러 에밋하는거 귀찮아서 안함
             return; //have to emit error
@@ -105,13 +106,17 @@ class SocketController {
         this.updateRoomInfo(io, socket); // update local RoomInfo
     }
 
-    //소켓에 해당하는 유저가 들어있는 룸에 있는 유저들에게 룸 정보 업데이트 전송
-    updateRoomInfo(io, socket) {
-        let room_id = this.getUserRoomId(socket);
+    updateRoomInfoById(io,room_id){
         io.in(room_id).emit(ClientEvents.COMMAND, {
             command: ClientEvents.ROOMINFO,
             room_info: RoomController.getRoomInfo(room_id),
         });
+    }
+
+    //소켓에 해당하는 유저가 들어있는 룸에 있는 유저들에게 룸 정보 업데이트 전송
+    updateRoomInfo(io, socket) {
+        let room_id = this.getUserRoomId(socket);
+        this.updateRoomInfoById(io,room_id);
     }
 
     //소켓에 해당하는 유저에게 그 유저가 들어있는 룸 정보 업데이트 전송
@@ -154,6 +159,22 @@ class SocketController {
         }
 
         this.updateRoomInfo(io, socket);
+    }
+
+    exitRoom(io, socket){
+        let user_room_id = this.getUserRoomId(socket);
+        //만약 룸을 생성하려는 유저가 룸에 있지 않다면(룸에 있다면) 해당 연결 종료
+        if (user_room_id === "lobby") {
+            this.disconnect(io, socket);
+            socket.leave(user_room_id);
+        } 
+        let room_id = RoomController.quitUser(socket);
+        socket.join("lobby");
+        this.updateRoomList(io, socket);
+
+        this.updateRoomInfoById(io,room_id);
+        
+
     }
 
 }

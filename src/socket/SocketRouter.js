@@ -39,8 +39,13 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
 
     //클라이언트로부터 룸 참가 req가 왔을 때
     socket.on(ServerEvents.JOINROOM, (info) => {
-        // console.log("Socket On ", info);
+        console.log("Socket On ", info);
         SocketController.join(io, socket, info);
+    });
+
+    socket.on(ServerEvents.EXITROOM, () => {
+        // console.log("Socket On ", info);
+        SocketController.exitRoom(io, socket);
     });
 });
 

@@ -5,7 +5,6 @@ export default {
   ROOMINFO: "room_info",
   SETPLAYER: "set_player",
   GAME: "game",
-  PUTSTONE: "put_stone",
   TURN: "turn",
   SENDID: "send_id",
 };
