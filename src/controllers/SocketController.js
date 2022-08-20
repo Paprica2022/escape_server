@@ -65,7 +65,7 @@ class SocketController {
 
         // 생성한 아이디와 시드값에 해당하는 룸 생성 
         RoomController.createRoomSid(room_id, info.room_sid);
-        // GameController.add(room_id);
+        GameController.createGame(room_id);
 
         // update local RoomInfo
         // this.updateRoomInfo(io, socket);
