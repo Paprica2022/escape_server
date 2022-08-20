@@ -9,8 +9,10 @@ class RoomController {
     }
     */
 
+    //룸들을 담는 맵
     _room = new Map();
 
+    //룸 아이디와 룸 시드로 새로운 룸 생성하는 함수
     createRoomSid(room_id,room_sid) {
         log.info(`created room[${room_id}]`);
         this._room.set(room_id, {
@@ -20,10 +22,11 @@ class RoomController {
         });
         console.log(this._room);
     }
-
+    //해당 룸이 있나요?
     roomExists(room_id){
         return this._room.has(room_id);
     }
+    //룸 아이디에 해당하는 룸 정보 리턴
     getRoomInfo(room_id) {
         if (!this._room.has(room_id)) {
             log.error(`room_id[${room_id}] Not Found`);
@@ -36,7 +39,7 @@ class RoomController {
             map : this._room.get(room_id)["map"],
         };
     }
-
+    //해당 소켓 아이디의 유저를 그 유저가 들어있는 방에서 제거하는 함수
     quitUser(socket_id) {
         for (let [room_id, { room_status, player, map }] of this._room) {
             let isUser = true;
@@ -51,7 +54,7 @@ class RoomController {
             }
         }
     }
-
+    //현재 생성된 룸 리스트 리턴
     getRoomList() {
         return [...this._room].map(([key, value]) => ({
             room_id: key,

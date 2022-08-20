@@ -30,13 +30,16 @@ io.of("/").on(ServerEvents.CONNECTION, (socket) => {
         SocketController.disconnect(io, socket)
     });
 
+    //클라이언트로부터 룸 생성 req가 왔을 때
     socket.on(ServerEvents.CREATEROOM, (info) => {
         // console.log(info);
+        //소켓 컨트롤러 룸 생성 함수 - io는 서버 오브젝트, socket은 각 클라이언트 연결정보, info는 추가 데이터
         SocketController.createRoom(io,socket,info);
     });
 
+    //클라이언트로부터 룸 참가 req가 왔을 때
     socket.on(ServerEvents.JOINROOM, (info) => {
-        console.log("Socket On ", info);
+        // console.log("Socket On ", info);
         SocketController.join(io, socket, info);
     });
 });
