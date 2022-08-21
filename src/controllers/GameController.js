@@ -1,5 +1,5 @@
 import log from "../logger.js";
-const multiply = 5;
+const multiply = 10;
 
 class GameController {
     /*
@@ -24,7 +24,8 @@ class GameController {
         log.info(`Setted Game[${room_id}]`);
         this._game.set(room_id, {
             player : players,
-            location : Array(players.length*2).fill(6)
+            location : Array(players.length*2).fill(450)
+            // location : [450,450]*players.length
         });
 
     }
@@ -43,6 +44,7 @@ class GameController {
     }
 
     moveByDirection(socket_id, room_id, direction){
+        console.log()
         let base_index = 0;
         let base_cal = 1;
         base_index = [...this._game.get(room_id)["player"]].indexOf(socket_id) * 2;
@@ -57,9 +59,9 @@ class GameController {
             base_index = base_index + 1
             base_cal = -1 * multiply;
         }
-        let player_list = [...this._game.get(room_id)["player"]];
+        let player_list = [...this._game.get(room_id)["location"]];
         player_list[base_index] = player_list[base_index] + base_cal;
-        this._game.get(room_id)["player"].set(player_list);
+        this._game.get(room_id)["location"] = (player_list);
 
     }
 
