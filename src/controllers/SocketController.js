@@ -167,16 +167,16 @@ class SocketController {
         this.updateGameInfo(io, socket);
     }
 
-    updateGameInfoById(room_id){
+    updateGameInfoById(io, room_id){
         io.in(room_id).emit(ClientEvents.COMMAND, {
             command: ClientEvents.GAMEINFO,
-            room_info: GameController.getGameInfo(room_id),
+            game_info: GameController.getGameInfo(room_id),
         });
     }
 
     updateGameInfo(io,socket){
         let room_id = this.getUserRoomId(socket);
-        updateGameInfoById(room_id);
+        this.updateGameInfoById(io, room_id);
     }
 
     exitRoom(io, socket){

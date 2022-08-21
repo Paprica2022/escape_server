@@ -24,11 +24,13 @@ class GameController {
         log.info(`Setted Game[${room_id}]`);
         this._game.set(room_id, {
             player : players,
-            location : Array(players.size*2).fill(-1)
+            location : Array(players.length*2).fill(6)
         });
 
     }
     getGameInfo(room_id) {
+        console.log("room_id : ", room_id);
+        console.log("_room : ", this._room); //undefined
         if (!this._room.has(room_id)) {
             log.error(`room_id[${room_id}] Not Found`);
             return false;
