@@ -57,6 +57,9 @@ class GameController {
             base_index = base_index + 1
             base_cal = -1 * multiply;
         }
+        let player_list = [...this._game.get(room_id)["player"]];
+        player_list[base_index] = player_list[base_index] + base_cal;
+        this._game.get(room_id)["player"].set(player_list);
 
     }
 

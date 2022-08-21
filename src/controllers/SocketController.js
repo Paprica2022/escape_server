@@ -157,14 +157,16 @@ class SocketController {
         //   return;
         // }
         RoomController.setReady(room_id, socket.id);
-
+        this.updateRoomInfo(io, socket);
         if (RoomController.isRoomReady(room_id)) { 
             RoomController.setRoomStatus(room_id, "playing");
             GameController.set(room_id, RoomController.getPlayerList(room_id), []);
             // GameController.initializeStone(room_id);
+            this.updateGameInfo(io, socket);
+            return;
         }
 
-        this.updateGameInfo(io, socket);
+        
     }
 
     updateGameInfoById(io, room_id){
@@ -206,7 +208,7 @@ class SocketController {
         let room_id = this.getUserRoomId(socket);
         GameController.moveByDirection(socket.id,room_id,direction);
 
-
+        this.updateGameInfo(io, socket);
     }
 
 }
