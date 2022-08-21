@@ -30,8 +30,8 @@ class GameController {
     }
     getGameInfo(room_id) {
         console.log("room_id : ", room_id);
-        console.log("_room : ", this._room); //undefined
-        if (!this._room.has(room_id)) {
+        console.log("_game : ", this._game); //undefined
+        if (!this._game.has(room_id)) {
             log.error(`room_id[${room_id}] Not Found`);
             return false;
         }
